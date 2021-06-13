@@ -1,6 +1,6 @@
 ### This is an example app for understanding React.memo() , useCallback and useMemo
 
-## React.useMemo
+## React.memo
 
 The way components are structured in this simple example is we have an App component which is mantaining state and 2 presentation components are computing the fibonacci and prime number for the nth number passed as props and just rendering the ui and attaching the click handlers passed in props.
 
@@ -59,3 +59,16 @@ const memoizedCallback = useCallback(() => doSomething(a, b),
 ```
 
 Doing the above means I no longer have to useMemo as the useCallback makes sure to return a new instance of the function when ever the array of values that the function depends on changes. 
+
+## React.useMemo
+
+What if, instead of memoizing at the component level using React.memo, we memoize the expensive calculations themselves? So what we need is a way to tell React to only invoke expensive function like ```calculateFib``` on re-renders where ```fibCount``` has changed, otherwise use whatever the values were from the previous render. 
+
+useMemo takes two arguments, a function and an array of values that the function depends on. It returns a value that will be computed on   <li>the initial render and </li> <li> whenever any of the values in the dependency array change </li>
+
+```javascript
+const memoizedValue = useMemo(() => 
+  computeExpensiveValue(a, b),
+  [a, b]
+)
+```
