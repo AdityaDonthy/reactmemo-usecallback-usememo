@@ -1,6 +1,10 @@
 .container {
   margin: 30px;
+  margin-top: 100px;
   font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 button {
@@ -12,4 +16,8 @@ button {
   font-weight: bold;
   font-size: 20px;
   margin: 5px;
+}
+
+.buttons {
+  display: flex;
 }

@@ -1,70 +1,30 @@
-# Getting Started with Create React App
+# This is an example app for understanding React.memo() , useCallback and useMemo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## React.useMemo
 
-## Available Scripts
+The way components are structured in this simple example is we have an App component which is mantaining state and 2 presentation components are computing the fibonacci and prime number for the nth number passed as props and just rendering the ui and attaching the click handlers passed in props.
 
-In the project directory, you can run:
+React.memo is a Higher-order component that lets you skip re-rendering a component if its props haven’t changed. The way it does this is when a component is wrapped in React.memo(), React will render the component and memoize the result. 
 
-### `yarn start`
+On subsequent re-renders, React will perform a shallow comparison (===) between the previous props and the new props and if the props haven’t changed, React will skip rendering the component and reuse the last rendered result.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+What this means for our example is we can wrap the exports of our computationally expensive components (NthFib and NthPrime) in React.memo and they’ll only re-render when their props change.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+You might think wrapping the component in React.memo like below would be enough
+```javascript
+export default React.memo(NthFib);
+```
 
-### `yarn test`
+What makes this example tricky is that since we are passing in a function as props from our App component, the function prop ```increment``` is never shallow equal to the previous props function because a function is a reference type! 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Primitive vs. Reference Values
+Whenever you create a variable in JavaScript, that variable can store one of two types of data, a primitive value like ```count``` or a reference value ```increment```. If the value is a ```number, string, boolean, undefined, null, or symbol```, it’s a primitive value. If it’s anything else (i.e. typeof object or function), it’s a reference value.
 
-### `yarn build`
+So instead of comparing both props to decide whether to render or not , we can tell react to check only for count prop as below. We explicitly tell how to decide.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```javascript
+export default React.memo(NthFib, (prevProps, currentProps) => {
+    return prevProps.count === currentProps.count
+})
+```
+Above works but there's a better way to do it

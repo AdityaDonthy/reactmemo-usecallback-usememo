@@ -1,6 +1,6 @@
 import React from "react"
-
-
+import NthFib from "./NthFib"
+import NthPrime from './NthPrime'
 import "./styles.css"
 
 export default function App() {
@@ -18,14 +18,21 @@ export default function App() {
   }
 
   return (
-    <React.Fragment>
-      <button onClick={add10}>Add 10</button>
-      <button onClick={handleReset}>Reset</button>
-      
+    <div className='container'>
+      <div className='buttons'>
+        <button onClick={add10}>Add 10</button>
+        <button onClick={handleReset}>Reset</button>
+      </div>
       <hr />
-      {`Fib Count: ${fibCount}`}
+      <NthFib 
+        count={fibCount}
+        increment={() => setFibCount((c) => c + 1)}
+      />
       <hr />
-      {`primeCount: ${primeCount}`}
-    </React.Fragment>
+      <NthPrime 
+        count={primeCount}
+        increment={() => setPrimeCount((c) => c + 1)}
+      />
+    </div>
   );
 }
