@@ -1,0 +1,15 @@
+.container {
+  margin: 30px;
+  font-size: 30px;
+}
+
+button {
+  border: 1px solid rgba(62, 138, 39, 0.2);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(20, 120, 6, 0.774);
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 5px;
+}
