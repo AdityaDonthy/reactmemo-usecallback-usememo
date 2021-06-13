@@ -1,4 +1,4 @@
-# This is an example app for understanding React.memo() , useCallback and useMemo
+### This is an example app for understanding React.memo() , useCallback and useMemo
 
 ## React.useMemo
 
@@ -27,4 +27,35 @@ export default React.memo(NthFib, (prevProps, currentProps) => {
     return prevProps.count === currentProps.count
 })
 ```
-Above works but there's a better way to do it
+Above works but there's a better way to do it ## React.useCallback
+
+useCallback returns a memoized callback. What this means is that any function you create with useCallback won’t be re-created on subsequent re-renders. It takes two arguments, a function and an array of values that the function depends on. What the memoized function returns will only change if one of the values in the dependency array change. If a or b changes, the ```memoizedCallback```` will be a new reference
+
+```javascript
+const memoizedCallback = useCallback(() => doSomething(a, b),
+  [a, b],
+)
+```
+
+```javascript
+  const memoizedFib = React.useCallback(() => 
+    setFibCount((c) => c + 1), 
+    []
+  )
+  const memoizedPrime = React.useCallback(() => 
+    setPrimeCount((c) => c + 1), 
+    []
+  )
+
+<NthFib 
+    count={fibCount}
+    increment={memoizedFib}
+    />
+    <hr />
+    <NthPrime 
+    count={primeCount}
+    increment={memoizedPrime}
+    />    
+```
+
+Doing the above means I no longer have to useMemo as the useCallback makes sure to return a new instance of the function when ever the array of values that the function depends on changes. 

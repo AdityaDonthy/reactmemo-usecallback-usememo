@@ -17,6 +17,14 @@ export default function App() {
     setPrimeCount((c) => c + 10)
   }
 
+  const memoizedFib = React.useCallback(() => setFibCount((c) => c + 1), 
+    []
+  )
+
+  const memoizedPrime = React.useCallback(() => setPrimeCount((c) => c + 1), 
+    []
+  )
+
   return (
     <div className='container'>
       <div className='buttons'>
@@ -26,12 +34,12 @@ export default function App() {
       <hr />
       <NthFib 
         count={fibCount}
-        increment={() => setFibCount((c) => c + 1)}
+        increment={memoizedFib}
       />
       <hr />
       <NthPrime 
         count={primeCount}
-        increment={() => setPrimeCount((c) => c + 1)}
+        increment={memoizedPrime}
       />
     </div>
   );

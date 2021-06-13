@@ -13,6 +13,4 @@ const NthPrime = function NthPrime({count, increment}) {
     )
 }
 
-export default React.memo(NthPrime, (prevProps, currentProps) => {
-    return prevProps.count === currentProps.count
-});
+export default React.memo(NthPrime);

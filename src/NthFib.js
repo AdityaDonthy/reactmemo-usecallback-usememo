@@ -12,6 +12,4 @@ const NthFib = function({count, increment}) {
     )
 }
 
-export default React.memo(NthFib, (prevProps, currentProps) => {
-    return prevProps.count === currentProps.count
-});
+export default React.memo(NthFib);
