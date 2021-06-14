@@ -28,7 +28,7 @@ export default React.memo(NthFib, (prevProps, currentProps) => {
 })
 ```
 
-Chceck the (commit)[https://github.com/AdityaDonthy/reactmemo-usecallback-usememo/commit/ff34d75ca970572245a4614015c8e158bddff0e9?branch=ff34d75ca970572245a4614015c8e158bddff0e9&diff=split]. Above works but there's a better way to do it React.useCallback
+Check the [commit](https://github.com/AdityaDonthy/reactmemo-usecallback-usememo/commit/ff34d75ca970572245a4614015c8e158bddff0e9?branch=ff34d75ca970572245a4614015c8e158bddff0e9&diff=split). Above works but there's a better way to do it React.useCallback
 
 ## React.useCallback
 useCallback returns a memoized callback. What this means is that any function you create with useCallback won’t be re-created on subsequent re-renders. It takes two arguments, a function and an array of values that the function depends on. What the memoized function returns will only change if one of the values in the dependency array change. If a or b changes, the ```memoizedCallback``` will be a new reference
@@ -64,7 +64,7 @@ const memoizedCallback = useCallback(() => doSomething(a, b),
     />    
 ```
 
-Doing the above means I no longer have to pass the second parameter to React.memo as the useCallback hook makes sure to return a new instance of the function only when ever the array of values that the function depends on changes. Check this (commit)[https://github.com/AdityaDonthy/reactmemo-usecallback-usememo/commit/59a33a4f813db95c80c6064c647639c83da42e55]
+Doing the above means I no longer have to pass the second parameter to React.memo as the useCallback hook makes sure to return a new instance of the function only when ever the array of values that the function depends on changes. Check this [commit](https://github.com/AdityaDonthy/reactmemo-usecallback-usememo/commit/59a33a4f813db95c80c6064c647639c83da42e55)
 
 ## React.useMemo
 
@@ -78,4 +78,4 @@ const memoizedValue = useMemo(() =>
   [a, b]
 )
 ```
-Check out the this (commit)[https://github.com/AdityaDonthy/reactmemo-usecallback-usememo/commit/8db1024dba3dc40e68d670b89f3d1847e9464fec]
+Check out the this [commit](https://github.com/AdityaDonthy/reactmemo-usecallback-usememo/commit/8db1024dba3dc40e68d670b89f3d1847e9464fec)
