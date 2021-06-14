@@ -1,8 +1,8 @@
-### This is an example app for understanding React.memo() , useCallback and useMemo
+## This is an example app for understanding React.memo() , useCallback and useMemo
 
 ## React.memo
 
-The way components are structured in this simple example is we have an App component which is mantaining state and 2 presentation components are computing the fibonacci and prime number for the nth number passed as props and just rendering the ui and attaching the click handlers passed in props.
+The way components are structured in this simple example is we have an App component which is mantaining state and 2 presentation components are computing the fibonacci and prime number for the nth number passed as props and it's responsibility is rendering the ui and attaching the click handlers passed in props.
 
 React.memo is a Higher-order component that lets you skip re-rendering a component if its props haven’t changed. The way it does this is when a component is wrapped in React.memo(), React will render the component and memoize the result. 
 
@@ -27,9 +27,15 @@ export default React.memo(NthFib, (prevProps, currentProps) => {
     return prevProps.count === currentProps.count
 })
 ```
-Above works but there's a better way to do it ## React.useCallback
 
-useCallback returns a memoized callback. What this means is that any function you create with useCallback won’t be re-created on subsequent re-renders. It takes two arguments, a function and an array of values that the function depends on. What the memoized function returns will only change if one of the values in the dependency array change. If a or b changes, the ```memoizedCallback```` will be a new reference
+Chceck the (commit)[https://github.com/AdityaDonthy/reactmemo-usecallback-usememo/commit/ff34d75ca970572245a4614015c8e158bddff0e9?branch=ff34d75ca970572245a4614015c8e158bddff0e9&diff=split]. Above works but there's a better way to do it React.useCallback
+
+## React.useCallback
+useCallback returns a memoized callback. What this means is that any function you create with useCallback won’t be re-created on subsequent re-renders. It takes two arguments, a function and an array of values that the function depends on. What the memoized function returns will only change if one of the values in the dependency array change. If a or b changes, the ```memoizedCallback``` will be a new reference
+
+What that does is we pass React a function and React gives that same function back to us, but with a catch. On subsequent renders, if the elements in the dependency list are unchanged, instead of giving the same function back that we give to it, React will give us the same function it gave us last time.
+
+So while we still create a new function every render (to pass to useCallback), React only gives us the new one if the dependency list changes.
 
 ```javascript
 const memoizedCallback = useCallback(() => doSomething(a, b),
@@ -58,7 +64,7 @@ const memoizedCallback = useCallback(() => doSomething(a, b),
     />    
 ```
 
-Doing the above means I no longer have to useMemo as the useCallback makes sure to return a new instance of the function when ever the array of values that the function depends on changes. 
+Doing the above means I no longer have to pass the second parameter to React.memo as the useCallback hook makes sure to return a new instance of the function only when ever the array of values that the function depends on changes. Check this (commit)[https://github.com/AdityaDonthy/reactmemo-usecallback-usememo/commit/59a33a4f813db95c80c6064c647639c83da42e55]
 
 ## React.useMemo
 
@@ -72,3 +78,4 @@ const memoizedValue = useMemo(() =>
   [a, b]
 )
 ```
+Check out the this (commit)[https://github.com/AdityaDonthy/reactmemo-usecallback-usememo/commit/8db1024dba3dc40e68d670b89f3d1847e9464fec]
